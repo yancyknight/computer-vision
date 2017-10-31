@@ -40,7 +40,7 @@ subplot(2,2,3), imshow(newIm);
 title('Filtered Image');
 
 disp('---------Finished Problem 1.1----------');
-% pause;
+pause;
 close;
 
 H = zeros(row, col);
@@ -69,7 +69,7 @@ title('Filtered Image');
 
 
 disp('---------Finished Problem 1.2----------');
-% pause;
+pause;
 close;
 
 cityIm = imread('City.jpg');
@@ -105,21 +105,15 @@ subplot(2,2,3), imshow(blurCity);
 title('Turbulent Image');
 
 disp('---------Finished Problem 2.1----------');
-% pause;
+pause;
 close;
 
 blurCity = imread('BlurCity.bmp');
-[row, col] = size(blurCity);
 freqIm = fft2(blurCity);
 sFreqIm = fftshift(freqIm);
 g = .001;
-F = zeros(row,col);
 
-for u = 1:row
-    for v = 1:col
-        F(u,v) = (1 ./ H(u,v) .* (abs(H(u,v)^2 ./ ((abs(H(u,v) .^2 + g))))));
-    end
-end
+F = (1 ./ H .* (abs(H).^2 ./ (abs(H).^2 + g)));
 
 fsFreqIm = sFreqIm .* F;
 newFreqIm = ifftshift(fsFreqIm);
@@ -137,7 +131,7 @@ subplot(2,2,4), imshow(F);
 title('Mask');
 
 disp('---------Finished Problem 2.2----------');
-% pause;
+pause;
 close;
  
 %  Capitol
@@ -165,7 +159,7 @@ subplot(2,2,4), imshow(Scaling(samplePhase, [0, 255]));
 title('Sample Phase');
 
 disp('---------Finished Problem 3.1----------');
-% pause;
+pause;
 close;
 
 capFreqIm = capMag .* exp(samplePhase * i);
@@ -183,7 +177,7 @@ subplot(1,2,2), imshow(newSample);
 title('New Sample');
 
 disp('---------Finished Problem 3.2----------');
-% pause;
+pause;
 close;
  
 boyIm = imread('boy_noisy.gif');
@@ -225,7 +219,7 @@ subplot(1,2,2), imshow(newIm);
 title('Reconstructed');
 
 disp('---------Finished Problem 4----------');
-% pause;
+pause;
 close;
 
 dwtmode('per');
@@ -247,64 +241,90 @@ else
 end
 
 disp('---------Finished Problem 5.1----------');
-% pause;
+pause;
 close;
 
-% x = floor(L / 2);
-% [cA,cH,cV,cD] = dwt2(lenaIm, 'db2');
-% decomp(:,:,1,1) = cA;
-% decomp(:,:,2,1) = cH;
-% decomp(:,:,3,1) = cV;
-% decomp(:,:,4,1) = cD;
+x = floor(L / 2);
+[Ca, Sa] = wavedec2(lenaIm, x, 'db2');
+Cb = Ca;
+Sb = Sa;
 
-% if x > 1
-%     for i = 2:x
-%         [cA,cH,cV,cD] = dwt2(decomp(:,:,i-1,1), 'db2');
-%         decomp(:,:,1,i) = cA;
-%         decomp(:,:,2,i) = cH;
-%         decomp(:,:,3,i) = cV;
-%         decomp(:,:,4,i) = cD;
-%     end
-% end
+Ca(1:Sa(1,1)*Sa(1,2)) = 0;
 
-% decompA = decomp;
-% decompB = decomp;
+[sRow, sCol] = size(Sb);
+start = sum(Sb(2:sRow - 3, 1).^2.*3) + Sb(sRow-2, 1)^2 + Sb(1,1).^2;
+endd = start + Sb(sRow-2, 1)^2;
+Cb(start:endd) = 0;
+aLena = uint8(waverec2(Ca, Sa, 'db2'));
+bLena = uint8(waverec2(Cb, Sb, 'db2'));
 
-% for i = 1:x
-%     [row,col,height,num] = size(decompA(:,:,1,i));
-%     decompA(:,:,1,i) = zeros(row,col);
-% end
+figure;
+subplot(2,2,1), imshow(aLena);
+title('Image A');
+subplot(2,2,2), imshow(bLena);
+title('Image B');
+subplot(2,2,3), imshow(lenaIm);
+title('Original');
 
-% [row,col,height,num] = size(decompB(:,:,3,2));
-% decompB(:,:,3,2) = zeros(row,col);
-
-% newcAx = decompA(:,:,1,x);
-% newcBx = decompB(:,:,1,x);
-
-% for i = x-1:-1:1
-%     newcAx = idwt2(newcAx, decompA(:,:,2,i), decompA(:,:,3,i), decompA(:,:,4,i), 'db2');
-%     newcBx = idwt2(newcBx, decompB(:,:,2,i), decompB(:,:,3,i), decompB(:,:,4,i), 'db2');
-% end
-
-% imshow('newcAx');
-% imshow('newcBx');
+disp('Image A loses a lot of information because we are losing the coefficient values at the lowest level of decomposition.');
+disp('Image B is not affected very much because the second level is fairly high. You can see the image is slightly distorted in the lower right corner, but just barely.');
 
 disp('---------Finished Problem 5.2----------');
-% pause;
+pause;
 close;
 
 lenaIm = imread('Lena.jpg');
 noisyLena = imnoise(lenaIm, 'gaussian',0,0.01);
-% imshow(noisyLena);
+[C, S] = wavedec2(noisyLena, 3, 'db2');
 
+% level 3
 
+start = S(1,1)^2;
+endd = S(1,1)^2*4;
+fij = C(start:endd);
+variance = (median(abs(fij))/0.6745)^2;
+t = sqrt(variance) * sqrt(2*log(S(1,1)^2*3));
+
+fij(fij >= t) = fij(fij >= t) - t;
+fij(fij <= -t) = fij(fij <= -t) + t;
+fij(abs(fij) < t) = 0;
+C(start:endd) = fij;
+
+% level 2
+
+start = endd + 1;
+endd = endd + S(3,1)^2*3;
+fij = C(start:endd);
+variance = (median(abs(fij))/0.6745)^2;
+t = sqrt(variance) * sqrt(2*log(S(3,1)^2*3));
+
+fij(fij >= t) = fij(fij >= t) - t;
+fij(fij <= -t) = fij(fij <= -t) + t;
+fij(abs(fij) < t) = 0;
+C(start:endd) = fij;
+
+% level 1
+
+start = endd + 1;
+endd = size(C,2);
+fij = C(start:endd);
+variance = (median(abs(fij))/0.6745)^2;
+t = sqrt(variance) * sqrt(2*log(S(4,1)^2*3));
+
+fij(fij >= t) = fij(fij >= t) - t;
+fij(fij <= -t) = fij(fij <= -t) + t;
+fij(abs(fij) < t) = 0;
+C(start:endd) = fij;
+
+newLena = uint8(waverec2(C, S, 'db2'));
+
+figure;
+subplot(1,2,1), imshow(noisyLena);
+title('Noisy');
+subplot(1,2,2), imshow(newLena);
+title('Reconstructed');
 
 disp('---------Finished Problem 6----------');
 pause;
 close;
-% ***********************************************
-% WHEN YOU ARE DONE UNCOMMENT ALL THE PAUSE CALLS
-% ***********************************************
-
-
 
