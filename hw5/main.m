@@ -15,9 +15,9 @@ close;
 
 % -------- Problem 1.2 --------
 squaresIm = imread('SmallSquares.tif');
-se = strel('arbitrary', [0, 1, 0; 0, 1, 1; 0, 0, 0]);
-se2 = strel('arbitrary', [0, 1, 1; 0, 1, 1; 0, 0, 0]);
-filtSquares = imerode(squaresIm, [se, se2]);
+se = imcomplement([0, 1, 1; 0, 1, 1; 0, 0, 0]);
+filtSquares = imerode(imcomplement(squaresIm), se);
+filtSquares = filtSquares & squaresIm;
 disp('Number of pixels:');
 disp(sum(filtSquares(:)));
 imshow(filtSquares);
@@ -106,17 +106,17 @@ title('Close Open');
 disp('Explain why they look like that here TODO')
 
 % pause;
-% close;
+close;
 
-% figure;
-% subplot(2,2,1), imshow(ocDowelsIm);
-% title('Open Close');
-% subplot(2,2,2), imshow(coDowelsIm);
-% title('Close Open');
-% subplot(2,2,3), imshow(seriesOcDowelsIm);
-% title('Open Close');
-% subplot(2,2,4), imshow(seriesCoDowelsIm);
-% title('Close Open');
+figure;
+subplot(2,2,1), imshow(ocDowelsIm);
+title('Open Close');
+subplot(2,2,2), imshow(coDowelsIm);
+title('Close Open');
+subplot(2,2,3), imshow(seriesOcDowelsIm);
+title('Open Close');
+subplot(2,2,4), imshow(seriesCoDowelsIm);
+title('Close Open');
 
 disp('---------Finished Problem 1.5----------');
 % pause;
@@ -125,17 +125,17 @@ close;
 % -------- Problem 2.1 --------
 
 ballIm = imread('Ball.tif');
-se = strel('disk', 21);
+se = strel('disk', 3);
 [labelIm, num] = FindComponentLabels(ballIm, se);
 
 disp('Number of objects:');
 disp(num);
 
 figure;
-imshow(labelIm, [1,num]);
+imshow(labelIm, [0,num]);
 
 disp('---------Finished Problem 2.1----------');
-% pause;
+pause;
 close;
 
 % -------- Problem 2.2 --------
@@ -146,7 +146,7 @@ disp('Number of objects:');
 disp(max(CC(:)));
 
 disp('---------Finished Problem 2.2----------');
-% pause;
+pause;
 close;
 
 % -------- Problem 2.3 --------
