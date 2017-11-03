@@ -1,3 +1,6 @@
+% Yancy Knight A01421507
+% HW5
+
 function [labelIm, num] = FindComponentLabels(im, se)
 
 [row, col] = size(im);
