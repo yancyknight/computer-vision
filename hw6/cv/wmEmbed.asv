@@ -1,0 +1,26 @@
+function [ embeddedIm ] = wmEmbed( Im, B )
+
+dwtmode('per');
+[C, S] = wavedec2(Im, 3, 'db9');
+
+rng(7);
+ll3size = S(1,1) * S(1,2);
+b = randi(2, 1, ll3size);
+b = b - 1;
+
+H = C(1:ll3size);
+
+for i = 1:ll3size
+    if b(i) == 1
+        if mod(H(i), B) >= .25 * B
+           H(i) = H(i) - (mod(H(i) 
+        else
+            
+        end
+    else
+        
+    end
+end
+
+end
+
