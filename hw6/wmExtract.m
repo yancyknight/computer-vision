@@ -1,4 +1,4 @@
-function [ b] = wmExtract( wmIm, B )
+function [ b ] = wmExtract( wmIm, B )
 
 dwtmode('per');
 [C, S] = wavedec2(wmIm, 3, 'db9');
