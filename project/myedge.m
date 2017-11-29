@@ -41,8 +41,7 @@ if strcmp(method,'canny')
     
     % Perform Non-Maximum Suppression Thining and Hysteresis Thresholding of Edge
     % Strength
-%     e = thinAndThreshold(dx, dy, magGrad, lowThresh, highThresh);
-    e = magGrad;
+    e = thinAndThreshold(dx, dy, magGrad, lowThresh, highThresh);
     thresh = [lowThresh highThresh];
 
 end
@@ -161,7 +160,14 @@ function H = thinAndThreshold(dx, dy, magGrad, lowThresh, highThresh)
 % We will accrue indices which specify ON pixels in strong edgemap
 % The array e will become the weak edge map.
 
-E = cannyFindLocalMaxima(dx,dy,magGrad,lowThresh);
+% E = cannyFindLocalMaxima(dx,dy,magGrad,lowThresh);
+
+Eavg = mean(magGrad(:));
+E = zeros(size(magGrad));
+thresh = 1.9;
+E(magGrad > Eavg * thresh) = magGrad(magGrad > Eavg * thresh);
+
+imshow(E); pause;
 
 if ~isempty(E)
     [rstrong,cstrong] = find(magGrad>highThresh & E);
