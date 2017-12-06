@@ -84,10 +84,9 @@ if strcmp(edges, 'rich')
            end
        end
     end
-% For images with sparce edge information, we can get away with a
-% global threshold.
+% For sp
 else
-    S = std(magGrad(:));
+    S = std(magGrad);
     if S > 1
         k = 1.2;
     else
@@ -96,7 +95,7 @@ else
     Th = Eavg + k * S;
     Tl = Th / 2;
 
-    H(E > Tl & E < Th) = 1;
+    H(E > Tl && E < Th) = 1;
 end
 
 

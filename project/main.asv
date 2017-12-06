@@ -4,10 +4,7 @@ clear all;
 lenaIm = imread('Lena.jpg');
 liftIm = imread('liftingbody.jpg');
 tireIm = rgb2gray(imread('tire.png'));
-% cellIm = rgb2gray(imread('cell.jpg'));
-% cellIm = rgb2gray(imread('cell2.jpg'));
-cellIm = imread('cell3.jpg');
-ringIm = rgb2gray(imread('lotr.jpg'));
+cellIm = rgb2gray(imread('cell3.jpg'));
 
 % % Lift
 % cannyLift = edge(liftIm, 'canny');
@@ -60,36 +57,19 @@ ringIm = rgb2gray(imread('lotr.jpg'));
 % pause;
 % close;
 
-% % Cell
-% cannyCell = edge(cellIm, 'canny');
-% gravCell = myedge(cellIm);
-% gravCellSparse = myedge(cellIm, 'sparse');
-% 
-% figure;
-% subplot(2,2,1), imshow(cellIm);
-% title('Original');
-% subplot(2,2,2), imshow(cannyCell);
-% title('Canny Edge Detection');
-% subplot(2,2,3), imshow(gravCell);
-% title('Gravity Edge Detection');
-% subplot(2,2,4), imshow(gravCellSparse);
-% title('Gravity Edge Detection (Sparse)');
-% pause;
-% close;
-
-% Ring
-cannyRing = edge(ringIm, 'canny');
-gravRing = myedge(ringIm);
-gravRingSparse = myedge(ringIm, 'sparse');
+% Cell
+cannyCell = edge(cellIm, 'canny');
+gravCell = myedge(cellIm);
+gravCellSparse = myedge(cellIm, 'sparse');
 
 figure;
-subplot(2,2,1), imshow(ringIm);
+subplot(2,2,1), imshow(cellIm);
 title('Original');
-subplot(2,2,2), imshow(cannyRing);
+subplot(2,2,2), imshow(cannyCell);
 title('Canny Edge Detection');
-subplot(2,2,3), imshow(gravRing);
+subplot(2,2,3), imshow(gravCell);
 title('Gravity Edge Detection');
-subplot(2,2,4), imshow(gravRingSparse);
+subplot(2,2,4), imshow(gravCellSparse);
 title('Gravity Edge Detection (Sparse)');
 pause;
 close;
