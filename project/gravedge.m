@@ -1,4 +1,4 @@
-function [eout] = myedge(a, edges)
+function [eout] = gravedge(a, edges)
 %EDGE Find edges in intensity image.
 %     This is a modified version of canny edge detection using the
 %     gravitational force vector as a replacement for the gradient vector.
@@ -84,9 +84,10 @@ if strcmp(edges, 'rich')
            end
        end
     end
-% For sp
+% For images with sparce edge information, we can get away with a
+% global threshold.
 else
-    S = std(magGrad);
+    S = std(magGrad(:));
     if S > 1
         k = 1.2;
     else
@@ -95,7 +96,7 @@ else
     Th = Eavg + k * S;
     Tl = Th / 2;
 
-    H(E > Tl && E < Th) = 1;
+    H(E > Tl & E < Th) = 1;
 end
 
 
