@@ -10,9 +10,18 @@ cellIm = imread('cell3.jpg');
 ringIm = rgb2gray(imread('lotr.jpg'));
 
 % Lift
+disp('--- Lift ---')
+tic;
 cannyLift = edge(liftIm, 'canny');
+disp('Canny:');
+toc;tic;
 gravLift = gravedge(liftIm);
+disp('Gravity:');
+toc;tic;
 gravLiftSparse = gravedge(liftIm, 'sparse');
+disp('Gravity (Sparse):');
+toc;
+disp(' ');
 
 figure;
 subplot(2,2,1), imshow(liftIm);
@@ -27,9 +36,18 @@ pause;
 close;
 
 % Lena
+disp('--- Lena ---')
+tic;
 cannyLena = edge(lenaIm, 'canny');
+disp('Canny:');
+toc;tic;
 gravLena = gravedge(lenaIm);
+disp('Gravity:');
+toc;tic;
 gravLenaSparse = gravedge(lenaIm, 'sparse');
+disp('Gravity (Sparse):');
+toc;
+disp(' ');
 
 figure;
 subplot(2,2,1), imshow(lenaIm);
@@ -44,9 +62,18 @@ pause;
 close;
 
 % Tire
+disp('--- Tire ---')
+tic;
 cannyTire = edge(tireIm, 'canny');
+disp('Canny:');
+toc; tic;
 gravTire = gravedge(tireIm);
+disp('Gravity:');
+toc; tic;
 gravTireSparse = gravedge(tireIm, 'sparse');
+disp('Gravity (Sparse):');
+toc;
+disp(' ');
 
 figure;
 subplot(2,2,1), imshow(tireIm);
@@ -61,9 +88,18 @@ pause;
 close;
 
 % Cell
+disp('--- Cell ---')
+tic;
 cannyCell = edge(cellIm, 'canny');
+disp('Canny:');
+toc;tic;
 gravCell = gravedge(cellIm);
+disp('Gravity:');
+toc;tic;
 gravCellSparse = gravedge(cellIm, 'sparse');
+disp('Gravity (Sparse):');
+toc;
+disp(' ');
 
 figure;
 subplot(2,2,1), imshow(cellIm);
@@ -78,9 +114,18 @@ pause;
 close;
 
 % Ring
+disp('--- Ring ---')
+tic;
 cannyRing = edge(ringIm, 'canny');
+disp('Canny:');
+toc;tic;
 gravRing = gravedge(ringIm);
+disp('Gravity:');
+toc;tic;
 gravRingSparse = gravedge(ringIm, 'sparse');
+disp('Gravity (Sparse):');
+toc;
+disp(' ');
 
 figure;
 subplot(2,2,1), imshow(ringIm);
@@ -93,5 +138,3 @@ subplot(2,2,4), imshow(gravRingSparse);
 title('Gravity Edge Detection (Sparse)');
 pause;
 close;
-
-

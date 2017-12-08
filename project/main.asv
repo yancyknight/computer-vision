@@ -4,63 +4,94 @@ clear all;
 lenaIm = imread('Lena.jpg');
 liftIm = imread('liftingbody.jpg');
 tireIm = rgb2gray(imread('tire.png'));
-cellIm = rgb2gray(imread('cell3.jpg'));
+% cellIm = rgb2gray(imread('cell.jpg'));
+% cellIm = rgb2gray(imread('cell2.jpg'));
+cellIm = imread('cell3.jpg');
+ringIm = rgb2gray(imread('lotr.jpg'));
 
-% % Lift
-% cannyLift = edge(liftIm, 'canny');
-% gravLift = myedge(liftIm);
-% gravLiftSparse = myedge(liftIm, 'sparse');
-% 
-% figure;
-% subplot(2,2,1), imshow(liftIm);
-% title('Original');
-% subplot(2,2,2), imshow(cannyLift);
-% title('Canny Edge Detection');
-% subplot(2,2,3), imshow(gravLift);
-% title('Gravity Edge Detection');
-% subplot(2,2,4), imshow(gravLiftSparse);
-% title('Gravity Edge Detection (Sparse)');
-% pause;
-% close;
-% 
-% % Lena
-% cannyLena = edge(lenaIm, 'canny');
-% gravLena = myedge(lenaIm);
-% gravLenaSparse = myedge(lenaIm, 'sparse');
-% 
-% figure;
-% subplot(2,2,1), imshow(lenaIm);
-% title('Original');
-% subplot(2,2,2), imshow(Lena);
-% title('Canny Edge Detection');
-% subplot(2,2,3), imshow(gravLena);
-% title('Gravity Edge Detection');
-% subplot(2,2,4), imshow(gravLenaSparse);
-% title('Gravity Edge Detection (Sparse)');
-% pause;
-% close;
-% 
-% % Tire
-% cannyTire = edge(tireIm, 'canny');
-% gravTire = myedge(tireIm);
-% gravTireSparse = myedge(tireIm, 'sparse');
-% 
-% figure;
-% subplot(2,2,1), imshow(tireIm);
-% title('Original');
-% subplot(2,2,2), imshow(cannyTire);
-% title('Canny Edge Detection');
-% subplot(2,2,3), imshow(gravTire);
-% title('Gravity Edge Detection');
-% subplot(2,2,4), imshow(gravTireSparse);
-% title('Gravity Edge Detection (Sparse)');
-% pause;
-% close;
+% Lift
+tic;
+cannyLift = edge(liftIm, 'canny');
+disp('Time for Canny:');
+toc;tic;
+gravLift = gravedge(liftIm);
+disp('Time for Gravity:');
+toc;tic;
+gravLiftSparse = gravedge(liftIm, 'sparse');
+disp('Time for Gravity (sparse):');
+toc;
+
+figure;
+subplot(2,2,1), imshow(liftIm);
+title('Original');
+subplot(2,2,2), imshow(cannyLift);
+title('Canny Edge Detection');
+subplot(2,2,3), imshow(gravLift);
+title('Gravity Edge Detection');
+subplot(2,2,4), imshow(gravLiftSparse);
+title('Gravity Edge Detection (Sparse)');
+pause;
+close;
+
+% Lena
+tic;
+cannyLena = edge(lenaIm, 'canny');
+disp('Time for Canny:');
+toc;tic;
+gravLena = gravedge(lenaIm);
+disp('Time for Gravity:');
+toc;tic;
+gravLenaSparse = gravedge(lenaIm, 'sparse');
+disp('Time for Gravity (sparse):');
+toc;
+
+figure;
+subplot(2,2,1), imshow(lenaIm);
+title('Original');
+subplot(2,2,2), imshow(cannyLena);
+title('Canny Edge Detection');
+subplot(2,2,3), imshow(gravLena);
+title('Gravity Edge Detection');
+subplot(2,2,4), imshow(gravLenaSparse);
+title('Gravity Edge Detection (Sparse)');
+pause;
+close;
+
+% Tire
+tic;
+cannyTire = edge(tireIm, 'canny');
+disp('Time for Canny:');
+toc; tic;
+gravTire = gravedge(tireIm);
+disp('Time for Gravity:');
+toc; tic;
+gravTireSparse = gravedge(tireIm, 'sparse');
+disp('Time for Gravity (Sparse):');
+toc;
+
+figure;
+subplot(2,2,1), imshow(tireIm);
+title('Original');
+subplot(2,2,2), imshow(cannyTire);
+title('Canny Edge Detection');
+subplot(2,2,3), imshow(gravTire);
+title('Gravity Edge Detection');
+subplot(2,2,4), imshow(gravTireSparse);
+title('Gravity Edge Detection (Sparse)');
+pause;
+close;
 
 % Cell
+tic;
 cannyCell = edge(cellIm, 'canny');
-gravCell = myedge(cellIm);
-gravCellSparse = myedge(cellIm, 'sparse');
+disp('Time for Canny:');
+toc;tic;
+gravCell = gravedge(cellIm);
+disp('Time for Gravity:');
+toc;tic;
+gravCellSparse = gravedge(cellIm, 'sparse');
+disp('Time for Gravity (Sparse):');
+toc;
 
 figure;
 subplot(2,2,1), imshow(cellIm);
@@ -70,6 +101,30 @@ title('Canny Edge Detection');
 subplot(2,2,3), imshow(gravCell);
 title('Gravity Edge Detection');
 subplot(2,2,4), imshow(gravCellSparse);
+title('Gravity Edge Detection (Sparse)');
+pause;
+close;
+
+% Ring
+tic;
+cannyRing = edge(ringIm, 'canny');
+disp('Time for Canny:');
+toc;tic;
+gravRing = gravedge(ringIm);
+disp('Time for Gravity:');
+toc;tic;
+gravRingSparse = gravedge(ringIm, 'sparse');
+disp('Time for Gravity (Sparse):');
+toc;
+
+figure;
+subplot(2,2,1), imshow(ringIm);
+title('Original');
+subplot(2,2,2), imshow(cannyRing);
+title('Canny Edge Detection');
+subplot(2,2,3), imshow(gravRing);
+title('Gravity Edge Detection');
+subplot(2,2,4), imshow(gravRingSparse);
 title('Gravity Edge Detection (Sparse)');
 pause;
 close;
